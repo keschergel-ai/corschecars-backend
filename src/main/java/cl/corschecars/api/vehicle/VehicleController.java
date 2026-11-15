@@ -1,6 +1,7 @@
 package cl.corschecars.api.vehicle;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import java.net.URI;
@@ -40,6 +41,7 @@ public class VehicleController {
 
     @PostMapping
     @Operation(summary = "Crear un vehículo")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<VehicleResponse> create(@Valid @RequestBody VehicleRequest request) {
         VehicleResponse created = service.create(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -51,12 +53,14 @@ public class VehicleController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Actualizar un vehículo")
+    @SecurityRequirement(name = "bearerAuth")
     public VehicleResponse update(@PathVariable Long id, @Valid @RequestBody VehicleRequest request) {
         return service.update(id, request);
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Eliminar un vehículo")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
